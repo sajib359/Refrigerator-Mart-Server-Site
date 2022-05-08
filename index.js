@@ -29,3 +29,15 @@ async function run() {
         const product = await cursor.toArray();
         res.send(product);
       });
+
+         // add single product
+    app.post("/product", async (req, res) => {
+        const newProduct = req.body;
+        const result = await productCollection.insertOne(newProduct);
+        res.send(result);
+      });
+    } finally {
+    }
+  }
+  
+  run().catch(console.dir);
