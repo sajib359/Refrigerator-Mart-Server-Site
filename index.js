@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 // connetion to mongodb
-const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.14iau.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.tstmx.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -22,22 +22,22 @@ async function run() {
     await client.connect();
     const productCollection = client.db("refrigerator").collection("addedItems");
 
-      // get all product api
-      app.get("/manage", async (req, res) => {
-        const query = {};
-        const cursor = productCollection.find(query);
-        const product = await cursor.toArray();
-        res.send(product);
-      });
+    // get all product api
+    app.get("/manage", async (req, res) => {
+      const query = {};
+      const cursor = productCollection.find(query);
+      const product = await cursor.toArray();
+      res.send(product);
+    });
 
-         // add single product
+    // add single product
     app.post("/product", async (req, res) => {
-        const newProduct = req.body;
-        const result = await productCollection.insertOne(newProduct);
-        res.send(result);
-      });
-    } finally {
-    }
+      const newProduct = req.body;
+      const result = await productCollection.insertOne(newProduct);
+      res.send(result);
+    });
+  } finally {
   }
-  
-  run().catch(console.dir);
+}
+
+run().catch(console.dir);
